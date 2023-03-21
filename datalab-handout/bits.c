@@ -148,6 +148,7 @@ NOTES:
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 2
  *   Rating: 1
+ *   DONE
  */
 int func1(int x) {
 //  return ((x | (~x + 1)) >> 31) + 1;
@@ -162,7 +163,8 @@ int func1(int x) {
  *   Rating: 1
  */
 int func2(int x, int y) {
-  return 2;
+  int tmp = ~(x & y);
+  return ~tmp;
 }
 /* 
  * func3 - x&~y using only ^ and &
@@ -172,7 +174,7 @@ int func2(int x, int y) {
  *   Rating: 1
  */
 int func3(int x, int y) {
-  return 2;
+  return (x&~y);
 }
 /* 
  * func4 - swap the first 16 bits of x with the last 16 bits of x
@@ -241,9 +243,10 @@ int func9(int x) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
  *   Rating: 2
+ *   DONE
  */
 int func10(int x) {
-  return 2;
+  return (~x) + 1;
 }
 /* 
  * func11 - Determine if can compute x+y without overflow
@@ -264,7 +267,10 @@ int func11(int x, int y) {
  *   Rating: 3
  */
 int func12(int x, int y) {
-  return 2;
+  int diff = x + (~y + 1);
+  int sign_bit = (diff >> 31) & 1;
+
+  return !sign_bit;
 }
 /*
  * func13 - adds two numbers but when positive overflow occurs, returns
@@ -275,7 +281,29 @@ int func12(int x, int y) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 30
  *   Rating: 4
+ *   NE FONCTIONNE PAS :/
+ *   avec (2147483647[0x7fffffff],2147483647[0x7fffffff])
  */
+
+// Quand x -2147483648 [0x80000000] et y = -2147483648 [0x80000000] -- Le code retourne 147483647 [0x7fffffff] au lieu de 0[0x0] 
+// int func13(int x, int y) {
+// int sum = x + y;
+// int overflow = ((x >> 31) & (y >> 31) & ~(sum >> 31)) | (~(x >> 31) & ~(y >> 31) & (sum >> 31));
+// int max_val = ~(1 << 31);
+// 
+// return (overflow & ((x >> 31) ? max_val : ~max_val)) | (~overflow & sum);
+// }
+
 int func13(int x, int y) {
-  return 2;
+  int sum = x + y;
+
+  int is_negative_overflow = (x >> 31) & (y >> 31) & ~(sum >> 31);
+  int is_positive_overflow = ~(x >> 31) & ~(y >> 31) & (sum >> 31);
+
+  int max_val = ~(1 << 31);
+  int min_val = 1 << 31;
+
+  int overflow = is_negative_overflow | is_positive_overflow;
+
+  return (overflow & ((x >> 31) ? min_val : max_val)) | (~overflow & sum);
 }
