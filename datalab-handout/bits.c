@@ -302,7 +302,13 @@ int func10(int x) {
  *   Rating: 3
  */
 int func11(int x, int y) {
-  return 2;
+    int sum = x + y;                                            // Compute the sum of x and y
+    int sign_x = x >> 31;                                       // Extract the sign of x
+    int sign_y = y >> 31;                                       // Extract the sign of y
+    int sign_sum = sum >> 31;                                   // Extract the sign of the sum
+    int overflow = (sign_x ^ sign_sum) & (sign_y ^ sign_sum);   // Check for overflow
+
+    return !overflow;                                           // Return true if no overflow occurred, false otherwise
 }
 
 /* 
