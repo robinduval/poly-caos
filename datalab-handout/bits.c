@@ -141,7 +141,14 @@ NOTES:
 /* wchar_t uses ISO/IEC 10646 (2nd ed., published 2011-03-15) /
    Unicode 6.0.  */
 /* We do not support C11 <threads.h>.  */
+
+
 /* bit manipulation */
+/* bit manipulation */
+/* bit manipulation */
+
+/*  TODO : 2, 6, 7  */
+
 /*
  * func1 - returns 1 if x == 0, and 0 otherwise 
  *   Examples: func1(5) = 0, func1(0) = 1
@@ -245,7 +252,13 @@ int func7(int x, int n) {
 
     return logical_shift;
 }
-/* 2's complement */
+
+/*  2's complement  */
+/*  2's complement  */
+/*  2's complement  */
+/*  TODO : 9, 11, 12  */
+
+
 /* 
  * func8 - return minimum two's complement integer 
  *   Legal ops: ! ~ & ^ | + << >>
@@ -255,6 +268,7 @@ int func7(int x, int n) {
 int func8(void) {
     return ~0 << 31;                              // Shift the bitwise negation of 0 to the left by 31 positions
 }
+
 /*
  * func9 - returns 1 if x is the maximum, two's complement number,
  *     and 0 otherwise 
@@ -263,8 +277,13 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-  return 2;
+    int neg_x = ~x + 1;                           // Negate x to get its two's complement
+    int max_x = neg_x & x;                        // Find the maximum two's complement number by taking the bitwise AND of x and its two's complement
+    int is_max_x = !max_x;                        // If max_x is 0, x is the maximum two's complement number, otherwise it is not
+
+    return is_max_x;
 }
+
 /* 
  * func10 - return -x 
  *   Example: func10(1) = -1.
@@ -276,6 +295,7 @@ int func9(int x) {
 int func10(int x) {
   return (~x) + 1;
 }
+
 /* 
  * func11 - Determine if can compute x+y without overflow
  *   Example: func11(0x80000000,0x80000000) = 0,
@@ -287,6 +307,7 @@ int func10(int x) {
 int func11(int x, int y) {
   return 2;
 }
+
 /* 
  * func12 - if x > y  then return 1, else return 0 
  *   Example: func12(4,5) = 0, func12(5,4) = 1
@@ -300,6 +321,7 @@ int func12(int x, int y) {
 
   return !sign_bit;
 }
+
 /*
  * func13 - adds two numbers but when positive overflow occurs, returns
  *          maximum possible value, and when negative overflow occurs,
@@ -309,8 +331,6 @@ int func12(int x, int y) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 30
  *   Rating: 4
- *   NE FONCTIONNE PAS :/
- *   avec (2147483647[0x7fffffff],2147483647[0x7fffffff])
  */
 
 // Quand x -2147483648 [0x80000000] et y = -2147483648 [0x80000000] -- Le code retourne 147483647 [0x7fffffff] au lieu de 0[0x0] 
