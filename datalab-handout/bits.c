@@ -238,6 +238,7 @@ int func6(int x) {
  *   Rating: 3 
  */
 int func7(int x, int n) {
+  //TODO
     int mask = (1 << (31 - n)) - 1;                // Create a mask with the 31 - n least significant bits set to 1
     int arithmetic_shift = x >> n;                 // Perform arithmetic right shift
     int logical_shift = arithmetic_shift & mask;   // Apply the mask to the result of the arithmetic shift
@@ -252,7 +253,7 @@ int func7(int x, int n) {
  *   Rating: 1
  */
 int func8(void) {
-  return 2;
+  return 1 << 31; // Shift 1 to the left by 31 positions
 }
 /*
  * func9 - returns 1 if x is the maximum, two's complement number,
