@@ -280,6 +280,7 @@ int func9(int x) {
     int is_max_x = !(neg_x & (1 << 31));          // Check if x is the maximum two's complement number
 
     return is_max_x;
+}
 
 /* 
  * func10 - return -x 
