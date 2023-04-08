@@ -220,6 +220,7 @@ int func5(int x) {
  *   Rating: 2
  */
 int func6(int x) {
+  // TODO
     int mask = 0xAAAAAAAA;                      // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
     int even_bits_x = x & mask;                 // Keep only even-numbered bits of x
     int all_even_bits_set = even_bits_x ^ mask; // XOR even_bits_x with the mask, result will be 0 if all even-numbered bits are set to 1
@@ -227,6 +228,7 @@ int func6(int x) {
 
     return result;
 }
+
 /* 
  * func7 - shift x to the right by n, using a logical shift
  *   Can assume that 0 <= n <= 31
@@ -236,7 +238,11 @@ int func6(int x) {
  *   Rating: 3 
  */
 int func7(int x, int n) {
-  return 2;
+    int arithmetic_shift = x >> n; // Perform arithmetic right shift
+    int mask = ~(~0 << n) << (32 + ~n); // Create a mask with the n most significant bits set to 0 and the others set to 1
+    int logical_shift = arithmetic_shift & mask; // Apply the mask to the result of the arithmetic shift
+
+    return logical_shift;
 }
 /* 2's complement */
 /* 
