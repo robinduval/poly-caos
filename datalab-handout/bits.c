@@ -238,11 +238,12 @@ int func6(int x) {
  *   Rating: 3 
  */
 int func7(int x, int n) {
-    int arithmetic_shift = x >> n; // Perform arithmetic right shift
-    int mask = ~(~0 << n) << (32 + ~n); // Create a mask with the n most significant bits set to 0 and the others set to 1
-    int logical_shift = arithmetic_shift & mask; // Apply the mask to the result of the arithmetic shift
+    int is_n_zero = !n;                                     // Check if n is 0
+    int arithmetic_shift = x >> n;                          // Perform arithmetic right shift
+    int mask = ~(~0 << n) << (32 + ~n);                     // Create a mask with the n most significant bits set to 0 and the others set to 1
+    int logical_shift = arithmetic_shift & mask;            // Apply the mask to the result of the arithmetic shift
 
-    return logical_shift;
+    return (logical_shift & ~is_n_zero) | (x & is_n_zero);  // If n is 0, return x, else return logical_shift
 }
 /* 2's complement */
 /* 
