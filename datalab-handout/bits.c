@@ -276,12 +276,10 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    int neg_x = ~x + 1;                           // Find the two's complement of x
-    int max_x = x & neg_x;                        // Find the maximum two's complement number
-    int is_max_x = !(max_x ^ neg_x);              // Check if x is the maximum two's complement number
+    int neg_x = ~x;                               // Find the two's complement of x by bitwise negation
+    int is_max_x = !(neg_x & (1 << 31));          // Check if x is the maximum two's complement number
 
     return is_max_x;
-}
 
 /* 
  * func10 - return -x 
@@ -331,16 +329,6 @@ int func12(int x, int y) {
  *   Max ops: 30
  *   Rating: 4
  */
-
-// Quand x -2147483648 [0x80000000] et y = -2147483648 [0x80000000] -- Le code retourne 147483647 [0x7fffffff] au lieu de 0[0x0] 
-// int func13(int x, int y) {
-// int sum = x + y;
-// int overflow = ((x >> 31) & (y >> 31) & ~(sum >> 31)) | (~(x >> 31) & ~(y >> 31) & (sum >> 31));
-// int max_val = ~(1 << 31);
-// 
-// return (overflow & ((x >> 31) ? max_val : ~max_val)) | (~overflow & sum);
-// }
-
 int func13(int x, int y) {
   int sum = x + y;
 
