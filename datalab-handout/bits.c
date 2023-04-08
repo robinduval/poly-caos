@@ -270,16 +270,14 @@ int func8(void) {
 }
 
 /*
- * func9 - returns 1 if x is the maximum, two's complement number,
- *     and 0 otherwise 
+ * func9 - returns 1 if x is the maximum, two's complement number and 0 otherwise 
  *   Legal ops: ! ~ & ^ | +
  *   Max ops: 10
  *   Rating: 1
  */
 int func9(int x) {
-    int neg_x = ~x + 1;                           // Negate x to get its two's complement
-    int max_x = neg_x & x;                        // Find the maximum two's complement number by taking the bitwise AND of x and its two's complement
-    int is_max_x = !max_x;                        // If max_x is 0, x is the maximum two's complement number, otherwise it is not
+    int neg_x = ~x;                               // Find the two's complement of x by bitwise negation
+    int is_max_x = !(neg_x | (1 << 31));          // Check if x is the maximum two's complement number
 
     return is_max_x;
 }
