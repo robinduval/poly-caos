@@ -147,7 +147,7 @@ NOTES:
 /* bit manipulation */
 /* bit manipulation */
 
-/*  TODO : 2, 6, 7  */
+/*    TODO : 6, 7   */
 
 /*
  * func1 - returns 1 if x == 0, and 0 otherwise 
@@ -177,7 +177,6 @@ int func2(int x, int y) {
   // - ...Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
   // Failed : ~((x | y) & 0x7FFFFFFF) | (x & y) >> 31;
   // - ...Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
-
 
   return ~x & ~y;
 }
@@ -227,13 +226,10 @@ int func5(int x) {
  *   Rating: 2
  */
 int func6(int x) {
-  // TODO
-    int mask = 0xAAAAAAAA;                      // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
-    int even_bits_x = x & mask;                 // Keep only even-numbered bits of x
-    int all_even_bits_set = even_bits_x ^ mask; // XOR even_bits_x with the mask, result will be 0 if all even-numbered bits are set to 1
-    int result = !all_even_bits_set;            // Convert 0 to 1 and non-zero to 0
+    int mask = 0xAAAAAAAA;            // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
+    int result = (x & mask) == mask;  // Check if all even-numbered bits are set to 1
 
-    return result;
+    return result;                    // Return true if all even-numbered bits are set to 1, false otherwise
 }
 
 /* 
@@ -256,7 +252,7 @@ int func7(int x, int n) {
 /*  2's complement  */
 /*  2's complement  */
 /*  2's complement  */
-/*  TODO : 9, 11, 12  */
+/*   TODO : 9, 12   */
 
 
 /* 
@@ -288,7 +284,6 @@ int func9(int x) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
  *   Rating: 2
- *   DONE
  */
 int func10(int x) {
   return (~x) + 1;
