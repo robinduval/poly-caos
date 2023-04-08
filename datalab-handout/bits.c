@@ -276,8 +276,9 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    int neg_x = ~x;                               // Find the two's complement of x by bitwise negation
-    int is_max_x = !(neg_x | (1 << 31));          // Check if x is the maximum two's complement number
+    int neg_x = ~x + 1;                           // Find the two's complement of x
+    int max_x = x & neg_x;                        // Find the maximum two's complement number
+    int is_max_x = !(max_x ^ neg_x);              // Check if x is the maximum two's complement number
 
     return is_max_x;
 }
