@@ -294,7 +294,7 @@ int func10(int x) {
 }
 
 /* 
- * func11 - Determine if can compute x+y without overflow
+ * func11 - Determine if can compute x+y without overflow 
  *   Example: func11(0x80000000,0x80000000) = 0,
  *            func11(0x80000000,0x70000000) = 1, 
  *   Legal ops: ! ~ & ^ | + << >>
