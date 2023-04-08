@@ -163,9 +163,10 @@ int func1(int x) {
  *   Rating: 1
  */
 int func2(int x, int y) {
-  //Failed : ~(~x & ~y) - ...Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
+  // Failed : ~(~x & ~y) - ...Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
+  // Failed : Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
 
-  return ~x & ~y;
+  return ~((x | y) & 0x7FFFFFFF) | (x & y) >> 31;
 }
 /* 
  * func3 - x&~y using only ^ and &
