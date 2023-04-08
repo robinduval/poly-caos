@@ -151,8 +151,7 @@ NOTES:
  *   DONE
  */
 int func1(int x) {
-//  return ((x | (~x + 1)) >> 31) + 1; 
-
+  //return ((x | (~x + 1)) >> 31) + 1; 
   return !(x | (~x + 1));
 }
 
@@ -183,9 +182,16 @@ int func3(int x, int y) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 2
+ * Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
+ * Extract the last 16 bits of x by simply masking x with 0xFFFF.
+ * Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
+
  */
 int func4(int x) {
-  return 2;
+  int first16b = (x >> 16) & 0xFFFF;
+  int last16b = x & 0xFFFF;
+    
+  return (last16b << 16) | first16b;
 }
 /* 
  * func5 - set all bits of result to least significant bit of x
