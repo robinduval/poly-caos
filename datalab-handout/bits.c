@@ -163,8 +163,8 @@ int func1(int x) {
  *   Rating: 1
  */
 int func2(int x, int y) {
-  int tmp = ~(x & y);
-  return ~tmp;
+  
+  return ~(~x & ~y);
 }
 /* 
  * func3 - x&~y using only ^ and &
