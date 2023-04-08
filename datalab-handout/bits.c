@@ -147,7 +147,7 @@ NOTES:
 /* bit manipulation */
 /* bit manipulation */
 
-/*    TODO : 6, 7   */
+/*    TODO : 3, 6, 7   */
 
 /*
  * func1 - returns 1 if x == 0, and 0 otherwise 
@@ -155,7 +155,6 @@ NOTES:
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 2
  *   Rating: 1
- *   DONE
  */
 int func1(int x) {
   //return ((x | (~x + 1)) >> 31) + 1; 
@@ -188,7 +187,7 @@ int func2(int x, int y) {
  *   Rating: 1
  */
 int func3(int x, int y) {
-  return (x&~y);
+  return 2;
 }
 /* 
  * func4 - swap the first 16 bits of x with the last 16 bits of x
@@ -333,15 +332,23 @@ int func12(int x, int y) {
  *   Rating: 4
  */
 int func13(int x, int y) {
-  int sum = x + y;
+    int sum = x + y;                                                              // Compute the sum of x and y
 
-  int is_negative_overflow = (x >> 31) & (y >> 31) & ~(sum >> 31);
-  int is_positive_overflow = ~(x >> 31) & ~(y >> 31) & (sum >> 31);
+    int is_negative_x = (x >> 31) & 1;                                            // Check if x is negative
+    int is_negative_y = (y >> 31) & 1;                                            // Check if y is negative
+    int is_negative_sum = (sum >> 31) & 1;                                        // Check if the sum is negative
 
-  int max_val = ~(1 << 31);
-  int min_val = 1 << 31;
+    int is_negative_overflow = is_negative_x & is_negative_y & ~is_negative_sum;  // Check if the overflow is negative
+    int is_positive_overflow = ~is_negative_x & ~is_negative_y & is_negative_sum; // Check if the overflow is positive
 
-  int overflow = is_negative_overflow | is_positive_overflow;
+    int  __attribute__ ((unused)) max_val = ~(1 << 31);                           // Set the maximum value that can be represented by a 32-bit two's complement integer
+    int  __attribute__ ((unused)) min_val = 1 << 31;                              // Set the minimum value that can be represented by a 32-bit two's complement integer
 
-  return (overflow & ((x >> 31) ? min_val : max_val)) | (~overflow & sum);
+    int __attribute__ ((unused)) overflow = is_negative_overflow | is_positive_overflow; // Compute the overflow flag
+    int sign = (x >> 31) & 1;                                                     // Compute the sign of x
+
+    int overflow_val = overflow & ((sign & min_val) | (~sign & max_val));         // Compute the overflow value
+    int sum_val = ~overflow & sum;                                                // Compute the sum value
+
+    return overflow_val | sum_val;                                                // Return the final result
 }
