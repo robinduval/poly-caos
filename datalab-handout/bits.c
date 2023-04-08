@@ -204,9 +204,10 @@ int func4(int x) {
  *   Rating: 2
  */
 int func5(int x) {
+// Test func5(-2147483648[0x80000000]) failed - Gives 2[0x2]. Should be 0[0x0]
+
     int lsb = x & 1;                 // Extract the least significant bit of x
-    int lsb_neg = ~lsb + 1;          // Negate the least significant bit
-    int result = ~lsb_neg + 1;       // Set all bits of result to the least significant bit of x
+    int result = lsb - 1;            // Create a mask with all bits set to the least significant bit of x
 
     return result;
 }
