@@ -163,10 +163,15 @@ int func1(int x) {
  *   Rating: 1
  */
 int func2(int x, int y) {
-  // Failed : ~(~x & ~y) - ...Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
-  // Failed : Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
+  // Failed : ~(~x & ~y) 
+  // - ...                                                            -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
+  // Failed :  ~x & ~y;  
+  // - ...Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
+  // Failed : ~((x | y) & 0x7FFFFFFF) | (x & y) >> 31;
+  // - ...Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
 
-  return ~((x | y) & 0x7FFFFFFF) | (x & y) >> 31;
+
+  return ~x & ~y;
 }
 /* 
  * func3 - x&~y using only ^ and &
@@ -184,26 +189,26 @@ int func3(int x, int y) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 2
- * Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
- * Extract the last 16 bits of x by simply masking x with 0xFFFF.
- * Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
-
  */
 int func4(int x) {
-  int first16b = (x >> 16) & 0xFFFF;
-  int last16b = x & 0xFFFF;
+  int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
+  int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
     
-  return (last16b << 16) | first16b;
+  return (last16b << 16) | first16b; // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
 }
 /* 
- * func5 - set all bits of result to least significant bit of x
+ * func5 - set all bits of result to least significant bit (lsb) of x
  *   Example: func5(5) = 0xFFFFFFFF, func5(6) = 0x00000000
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
  *   Rating: 2
  */
 int func5(int x) {
-  return 2;
+    int lsb = x & 1;                 // Extract the least significant bit of x
+    int lsb_neg = ~lsb + 1;          // Negate the least significant bit
+    int result = ~lsb_neg + 1;       // Set all bits of result to the least significant bit of x
+
+    return result;
 }
 /* 
  * func6 - return 1 if all even-numbered bits in word set to 1
