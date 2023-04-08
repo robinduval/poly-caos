@@ -226,10 +226,10 @@ int func5(int x) {
  *   Rating: 2
  */
 int func6(int x) {
-    int mask = 0xAAAAAAAA;            // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
-    int result = (x & mask) == mask;  // Check if all even-numbered bits are set to 1
+    //int mask = 0xAAAAAAAA;            // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
+    //int result = (x & mask) == mask;  // Check if all even-numbered bits are set to 1
 
-    return result;                    // Return true if all even-numbered bits are set to 1, false otherwise
+    return 2;                    // Return true if all even-numbered bits are set to 1, false otherwise
 }
 
 /* 
@@ -242,11 +242,11 @@ int func6(int x) {
  */
 int func7(int x, int n) {
   //TODO
-    int mask = (1 << (31 - n)) - 1;                // Create a mask with the 31 - n least significant bits set to 1
-    int arithmetic_shift = x >> n;                 // Perform arithmetic right shift
-    int logical_shift = arithmetic_shift & mask;   // Apply the mask to the result of the arithmetic shift
+    //int mask = (1 << (31 - n)) - 1;                // Create a mask with the 31 - n least significant bits set to 1
+    //int arithmetic_shift = x >> n;                 // Perform arithmetic right shift
+    //int logical_shift = arithmetic_shift & mask;   // Apply the mask to the result of the arithmetic shift
 
-    return logical_shift;
+    return 2;
 }
 
 /*  2's complement  */
@@ -272,10 +272,10 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    int neg_x = ~x;                               // Find the two's complement of x by bitwise negation
-    int is_max_x = !(neg_x & (1 << 31));          // Check if x is the maximum two's complement number
+    //int neg_x = ~x;                               // Find the two's complement of x by bitwise negation
+    //int is_max_x = !(neg_x & (1 << 31));          // Check if x is the maximum two's complement number
 
-    return is_max_x;
+    return 2;
 }
 
 /* 
@@ -315,10 +315,11 @@ int func11(int x, int y) {
  *   Rating: 3
  */
 int func12(int x, int y) {
-  int diff = x + (~y + 1);
-  int sign_bit = (diff >> 31) & 1;
+  //int diff = x + (~y + 1);
+  //int sign_bit = (diff >> 31) & 1;
 
-  return !sign_bit;
+  //return !sign_bit;
+  return 2;
 }
 
 /*
