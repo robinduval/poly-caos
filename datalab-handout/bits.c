@@ -199,6 +199,7 @@ int func4(int x) {
 }
 /* 
  * func5 - set all bits of result to least significant bit (lsb) of x
+ *         FR : init tous les bits du résultat sur le lsb.
  *   Example: func5(5) = 0xFFFFFFFF, func5(6) = 0x00000000
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
@@ -212,13 +213,19 @@ int func5(int x) {
 }
 /* 
  * func6 - return 1 if all even-numbered bits in word set to 1
+ *         FR : renvoie 1 si tous les bits de numéros pairs dans le mot sont définis à 1, sinon elle renvoie 0.
  *   Examples func6(0xFFFFFFFE) = 0, func6(0x55555555) = 1
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 12
  *   Rating: 2
  */
 int func6(int x) {
-  return 2;
+    int mask = 0xAAAAAAAA;                      // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
+    int even_bits_x = x & mask;                 // Keep only even-numbered bits of x
+    int all_even_bits_set = even_bits_x ^ mask; // XOR even_bits_x with the mask, result will be 0 if all even-numbered bits are set to 1
+    int result = !all_even_bits_set;            // Convert 0 to 1 and non-zero to 0
+
+    return result;
 }
 /* 
  * func7 - shift x to the right by n, using a logical shift
