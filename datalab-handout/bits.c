@@ -253,7 +253,7 @@ int func7(int x, int n) {
  *   Rating: 1
  */
 int func8(void) {
-  return (1 << 31) + ~0;                            // Shift 1 to the left by 31 positions and add -1
+    return ~0 << 31; // Shift the bitwise negation of 0 to the left by 31 positions
 }
 /*
  * func9 - returns 1 if x is the maximum, two's complement number,
