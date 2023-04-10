@@ -204,7 +204,7 @@ int func4(int x) {
   last16b = x & 0xFF;  // Get the first 8 bits of the last 16 bits
   x = x >> 8;  // Right shift x by 8 bits
   last16b = last16b | (x & 0xFF) << 8;  // Repeat the first 8 bits to get the last 16 bits
-  last16b = last16b & 0xFFFF;  // Mask the last 16 bits to make sure they are positive
+  last16b = (last16b & 0xFF) | ((last16b & 0xFF) << 8);  // Repeat the first 8 bits of the last 16 bits
 
   // Combine the first and last 16 bits to get the result
   return (last16b << 16) | first16b;
