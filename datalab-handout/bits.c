@@ -191,10 +191,14 @@ int func3(int x, int y) {
  *   Rating: 2
  */
 int func4(int x) {
-    int mask = (0xFF << 8) | 0xFF;
+    int mask = (0x55 << 8) | 0x55;
+    mask = (mask << 16) | mask;
+
     int first16b = x & mask;
     int last16b = (x >> 16) & mask;
-    int shifted_first16b = (first16b << 16) | ((x >> 31) << 31);
+    int sign_bit = x & (1 << 31);
+
+    int shifted_first16b = (first16b << 16) | sign_bit;
     int shifted_last16b = (last16b) | ((x & (1 << 15)) << 16);
 
     return shifted_last16b | shifted_first16b;
