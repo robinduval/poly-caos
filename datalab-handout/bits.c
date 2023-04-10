@@ -191,17 +191,21 @@ int func3(int x, int y) {
  *   Rating: 2
  */
 int func4(int x) {
-    int mask = (0x55 << 8) | 0x55;
-    mask = (mask << 16) | mask;
+  int first16b; 
+  int last16b;
 
-    int first16b = x & mask;
-    int last16b = (x >> 16) & mask;
-    int sign_bit = x & (1 << 31);
+  // Obtain the first 16 bits of x
+  first16b = x & 0xFF;  // Get the first 8 bits
+  first16b = first16b | (first16b << 8);  // Repeat the first 8 bits to get the first 16 bits
+  first16b = first16b | (first16b << 16);  // Repeat the first 16 bits to get the first 32 bits
 
-    int shifted_first16b = (first16b << 16) | sign_bit;
-    int shifted_last16b = (last16b) | ((x & (1 << 15)) << 16);
+  // Obtain the last 16 bits of x
+  last16b = x >> 16;  // Right shift x by 16 bits to get the last 16 bits
+  last16b = last16b & 0xFF;  // Get the first 8 bits of the last 16 bits
+  last16b = last16b | (last16b << 8);  // Repeat the first 8 bits to get the last 16 bits
 
-    return shifted_last16b | shifted_first16b;
+  // Combine the first and last 16 bits to get the result
+  return (last16b << 16) | first16b;
   // int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
   // int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
     
