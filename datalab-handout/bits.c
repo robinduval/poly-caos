@@ -212,9 +212,8 @@ int func4(int x) {
  */
 int func5(int x) {
     int lsb = x & 1;      // Extract the least significant bit of x
-    int result = -lsb;    // Create a mask with all bits set to the least significant bit of x
 
-    return result;
+    return -lsb;          // Create a mask with all bits set to the least significant bit of x
 }
 /* 
  * func6 - return 1 if all even-numbered bits in word set to 1
@@ -347,8 +346,8 @@ int func13(int x, int y) {
     // int overflow = is_negative_overflow | is_positive_overflow; // Compute the overflow flag
     int sign = (x >> 31) & 1;                                                     // Compute the sign of x
 
-    int overflow_val = (is_negative_overflow | is_positive_overflow) & ((sign & (1 << 31)) | (~sign & (~(1 << 31)));         // Compute the overflow value
-    int sum_val = ~(is_negative_overflow | is_positive_overflow) & sum;                                                // Compute the sum value
+    int overflow_val = (is_negative_overflow | is_positive_overflow) & (sign & (1 << 31)) | (~sign & (~(1 << 31)));  // Compute the overflow value
+    int sum_val = ~(is_negative_overflow | is_positive_overflow) & sum;                                              // Compute the sum value
 
     return overflow_val | sum_val;                                                // Return the final result
 }
