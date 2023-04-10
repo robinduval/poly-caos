@@ -340,14 +340,14 @@ int func13(int x, int y) {
     int is_negative_overflow = is_negative_x & is_negative_y & ~is_negative_sum;  // Check if the overflow is negative
     int is_positive_overflow = ~is_negative_x & ~is_negative_y & is_negative_sum; // Check if the overflow is positive
 
-    //int  max_val = ~(1 << 31);                                              // Set the maximum value that can be represented by a 32-bit two's complement integer
-    //int  min_val = 1 << 31;                                                 // Set the minimum value that can be represented by a 32-bit two's complement integer
+    int max_val = ~(1 << 31);                                                     // Set the maximum value that can be represented by a 32-bit two's complement integer
+    int min_val = 1 << 31;                                                        // Set the minimum value that can be represented by a 32-bit two's complement integer
 
-    // int overflow = is_negative_overflow | is_positive_overflow; // Compute the overflow flag
+    int overflow = is_negative_overflow | is_positive_overflow;                   // Compute the overflow flag
     int sign = (x >> 31) & 1;                                                     // Compute the sign of x
 
-    int overflow_val = (is_negative_overflow | is_positive_overflow) & (sign & (1 << 31)) | (~sign & (~(1 << 31)));  // Compute the overflow value
-    int sum_val = ~(is_negative_overflow | is_positive_overflow) & sum;                                              // Compute the sum value
+    int overflow_val = overflow & ((sign & min_val) | (~sign & max_val));         // Compute the overflow value
+    int sum_val = ~overflow & sum;                                                // Compute the sum value
 
     return overflow_val | sum_val;                                                // Return the final result
 }
