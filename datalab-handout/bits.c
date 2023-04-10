@@ -220,10 +220,12 @@ int func5(int x) {
  *   Rating: 2
  */
 int func6(int x) {
-    //int mask = 0xAAAAAAAA;            // Mask with even-numbered bits set to 1: 0b10101010101010101010101010101010
-    //int result = (x & mask) == mask;  // Check if all even-numbered bits are set to 1
-
-    return 2;                    // Return true if all even-numbered bits are set to 1, false otherwise
+    int mask = (0x55 << 8) | 0x55; // 0x00005555
+    mask = (mask << 16) | mask;    // 0x55555555
+    int even_bits = x & mask;
+    int result = !(even_bits ^ mask);
+    
+    return result;
 }
 
 /* 
