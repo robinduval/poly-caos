@@ -193,7 +193,7 @@ int func3(int x, int y) {
 int func4(int x) {
   int first16b; 
   int last16b;
-
+  int test = UINT_MAX;
   // Obtain the first 16 bits of x
   first16b = x & 0xFF;  // Get the first 8 bits
   first16b = first16b | (first16b << 8);  // Repeat the first 8 bits to get the first 16 bits
