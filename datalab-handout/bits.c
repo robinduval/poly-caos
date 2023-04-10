@@ -147,7 +147,7 @@ NOTES:
 /* bit manipulation */
 /* bit manipulation */
 
-/*    TODO : 3, 6, 7   */
+/*    TODO : 1, 6, 7   */
 
 /*
  * func1 - returns 1 if x == 0, and 0 otherwise 
@@ -169,14 +169,6 @@ int func1(int x) {
  *   Rating: 1
  */
 int func2(int x, int y) {
-  // TODO
-  // Failed : ~(~x & ~y) 
-  // - ...                                                            -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
-  // Failed :  ~x & ~y;  
-  // - ...Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
-  // Failed : ~((x | y) & 0x7FFFFFFF) | (x & y) >> 31;
-  // - ...Test func2(-2147483648[0x80000000],-2147483648[0x80000000]) -> Gives -2147483648[0x80000000]. Should be 2147483647[0x7fffffff]
-
   return ~x & ~y;
 }
 
