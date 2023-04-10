@@ -179,6 +179,7 @@ int func2(int x, int y) {
 
   return ~x & ~y;
 }
+
 /* 
  * func3 - x&~y using only ^ and &
  *   Example: func3(1,2) = 1, func3(0,1) = 0, 0
@@ -187,8 +188,9 @@ int func2(int x, int y) {
  *   Rating: 1
  */
 int func3(int x, int y) {
-  return 2;
+  return x & (x ^ y);
 }
+
 /* 
  * func4 - swap the first 16 bits of x with the last 16 bits of x
  *   Examples: func4(0x87654321) = 0x87654321, func4(0x12345678) = 0x56781234
@@ -202,6 +204,7 @@ int func4(int x) {
     
   return (last16b << 16) | first16b; // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
 }
+
 /* 
  * func5 - set all bits of result to least significant bit (lsb) of x
  *         FR : init tous les bits du résultat sur le lsb.
@@ -215,6 +218,7 @@ int func5(int x) {
 
     return -lsb;          // Create a mask with all bits set to the least significant bit of x
 }
+
 /* 
  * func6 - return 1 if all even-numbered bits in word set to 1
  *         FR : renvoie 1 si tous les bits de numéros pairs dans le mot sont définis à 1, sinon elle renvoie 0.
