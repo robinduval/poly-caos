@@ -191,27 +191,27 @@ int func3(int x, int y) {
  *   Rating: 2
  */
 int func4(int x) {
-  int first16b; 
-  int last16b;
-  int test = UINT_MAX;
-  // Obtain the first 16 bits of x
-  first16b = x & 0xFF;  // Get the first 8 bits
-  first16b = first16b | (first16b << 8);  // Repeat the first 8 bits to get the first 16 bits
-  first16b = first16b | (first16b << 16);  // Repeat the first 16 bits to get the first 32 bits
+  // int first16b; 
+  // int last16b;
+  // int test = UINT_MAX;
+  // // Obtain the first 16 bits of x
+  // first16b = x & 0xFF;  // Get the first 8 bits
+  // first16b = first16b | (first16b << 8);  // Repeat the first 8 bits to get the first 16 bits
+  // first16b = first16b | (first16b << 16);  // Repeat the first 16 bits to get the first 32 bits
 
-  // Obtain the last 16 bits of x
-  x = x >> 8;  // Right shift x by 8 bits
-  last16b = x & 0xFF;  // Get the first 8 bits of the last 16 bits
-  x = x >> 8;  // Right shift x by 8 bits
-  last16b = last16b | (x & 0xFF) << 8;  // Repeat the first 8 bits to get the last 16 bits
-  last16b = (last16b & 0xFF) | ((last16b & 0xFF) << 8);  // Repeat the first 8 bits of the last 16 bits
+  // // Obtain the last 16 bits of x
+  // x = x >> 8;  // Right shift x by 8 bits
+  // last16b = x & 0xFF;  // Get the first 8 bits of the last 16 bits
+  // x = x >> 8;  // Right shift x by 8 bits
+  // last16b = last16b | (x & 0xFF) << 8;  // Repeat the first 8 bits to get the last 16 bits
+  // last16b = (last16b & 0xFF) | ((last16b & 0xFF) << 8);  // Repeat the first 8 bits of the last 16 bits
 
-  // Combine the first and last 16 bits to get the result
-  return (last16b << 16) | first16b;
-  // int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
-  // int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
+  // // Combine the first and last 16 bits to get the result
+  // return (last16b << 16) | first16b;
+  int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
+  int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
     
-  // return (last16b << 16) | first16b; // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
+  return (last16b << 16) | first16b; // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
 }
 
 /* 
