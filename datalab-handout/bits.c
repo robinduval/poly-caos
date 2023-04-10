@@ -195,9 +195,10 @@ int func4(int x) {
   int mask_low = ~mask_high;                 // 0x0000FFFF
   int first16b = x & mask_high;
   int last16b = x & mask_low;
-  int sign_bit = (first16b >> 15) & 0x10000;  // Extract the sign bit after shifting
-
-  return (last16b << 16) | ((first16b >> 16) & 0x7FFF) | sign_bit;
+  int shifted_first16b = (first16b >> 16) & ((1 << 15) + 0xFF); // Clear sign bit
+  int sign_bit = first16b & (1 << 15); // Extract the sign bit after shifting
+  
+  return (last16b << 16) | shifted_first16b | (sign_bit << 1);
 
   // int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
   // int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
