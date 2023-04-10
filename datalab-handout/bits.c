@@ -191,11 +191,11 @@ int func3(int x, int y) {
  *   Rating: 2
  */
 int func4(int x) {
-    int mask_high = ((0xFF << 8) | 0xFF) << 16; // 0xFFFF0000
-    int mask_low = ~mask_high;                 // 0x0000FFFF
+    int mask_high = (((0xFF << 8) | 0xFF) << 8) << 8; // 0xFFFF0000
+    int mask_low = ~mask_high;                       // 0x0000FFFF
     int first16b = x & mask_high;
     int last16b = x & mask_low;
-    int shifted_first16b = (first16b >> 16) | (first16b >> 15 & 0x100); // Preserve sign bit
+    int shifted_first16b = (first16b >> 16) | (first16b >> 15 & (1 << 7));
     
     return (last16b << 16) | shifted_first16b;
 
