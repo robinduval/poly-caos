@@ -206,9 +206,10 @@ int func4(int x) {
  *   Rating: 2
  */
 int func5(int x) {
-    int lsb = x & 1;      // Extract the least significant bit of x
-
-    return -lsb;          // Create a mask with all bits set to the least significant bit of x
+    int lsb = x & 1;               // Extract the least significant bit of x
+    int mask = (lsb << 31) >> 31;  // Create a mask with all bits set to the least significant bit of x
+ 
+    return mask;
 }
 
 /* 
@@ -224,7 +225,7 @@ int func6(int x) {
     mask = (mask << 16) | mask;    // 0x55555555
     int even_bits = x & mask;
     int result = !(even_bits ^ mask);
-    
+
     return result;
 }
 
