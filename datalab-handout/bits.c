@@ -309,9 +309,10 @@ int func11(int x, int y) {
  *   Rating: 3
  */
 int func12(int x, int y) {
-    int diff = x + ((~y + 1) & 0xFF); // calculate the difference between x and y
-    int sign = (diff >> 31) & 1; // extract the sign bit of the difference
-    return (~sign + 1) & 1; // if sign is negative, return 0, otherwise return 1
+    // int diff = ((x ^ y) + ((x ^ y) >> 31)) & 0xFF;  // Calculate the difference between x and y
+    // int sign = (diff >> 7) & 1;                     // Extract the sign bit of the difference
+    // return (~sign + 1) & 1;                         // If sign is negative, return 0, otherwise return 1
+  return 2;
 }
 
 /*
@@ -325,23 +326,24 @@ int func12(int x, int y) {
  *   Rating: 4
  */
 int func13(int x, int y) {
-    int sum = x + y;                                                              // Compute the sum of x and y
+    // int sum = x + y;                                                              // Compute the sum of x and y
 
-    int is_negative_x = (x >> 31) & 1;                                            // Check if x is negative
-    int is_negative_y = (y >> 31) & 1;                                            // Check if y is negative
-    int is_negative_sum = (sum >> 31) & 1;                                        // Check if the sum is negative
+    // int is_negative_x = (x >> 31) & 1;                                            // Check if x is negative
+    // int is_negative_y = (y >> 31) & 1;                                            // Check if y is negative
+    // int is_negative_sum = (sum >> 31) & 1;                                        // Check if the sum is negative
 
-    int is_negative_overflow = is_negative_x & is_negative_y & ~is_negative_sum;  // Check if the overflow is negative
-    int is_positive_overflow = ~is_negative_x & ~is_negative_y & is_negative_sum; // Check if the overflow is positive
+    // int is_negative_overflow = is_negative_x & is_negative_y & ~is_negative_sum;  // Check if the overflow is negative
+    // int is_positive_overflow = ~is_negative_x & ~is_negative_y & is_negative_sum; // Check if the overflow is positive
 
-    int max_val = ~(1 << 31);                                                     // Set the maximum value that can be represented by a 32-bit two's complement integer
-    int min_val = 1 << 31;                                                        // Set the minimum value that can be represented by a 32-bit two's complement integer
+    // int max_val = ~(1 << 31);                                                     // Set the maximum value that can be represented by a 32-bit two's complement integer
+    // int min_val = 1 << 31;                                                        // Set the minimum value that can be represented by a 32-bit two's complement integer
 
-    int overflow = is_negative_overflow | is_positive_overflow;                   // Compute the overflow flag
-    int sign = (x >> 31) & 1;                                                     // Compute the sign of x
+    // int overflow = is_negative_overflow | is_positive_overflow;                   // Compute the overflow flag
+    // int sign = (x >> 31) & 1;                                                     // Compute the sign of x
 
-    int overflow_val = overflow & ((sign & min_val) | (~sign & max_val));         // Compute the overflow value
-    int sum_val = ~overflow & sum;                                                // Compute the sum value
+    // int overflow_val = overflow & ((sign & min_val) | (~sign & max_val));         // Compute the overflow value
+    // int sum_val = ~overflow & sum;                                                // Compute the sum value
 
-    return overflow_val | sum_val;                                                // Return the final result
+    // return overflow_val | sum_val;                                                // Return the final result
+    return 2;
 }
