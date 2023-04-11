@@ -309,9 +309,8 @@ int func11(int x, int y) {
  *   Rating: 3
  */
 int func12(int x, int y) {
-    int diff = x + (~y + 1); // calculate the difference between x and y
+    int diff = x + ((~y + 1) & 0xFF); // calculate the difference between x and y
     int sign = (diff >> 31) & 1; // extract the sign bit of the difference
-    
     return (~sign + 1) & 1; // if sign is negative, return 0, otherwise return 1
 }
 
