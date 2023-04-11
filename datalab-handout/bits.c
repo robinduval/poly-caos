@@ -242,10 +242,6 @@ int func7(int x, int n) {
 }
 
 /*  2's complement  */
-/*  2's complement  */
-/*  2's complement  */
-/*   TODO : 9, 12   */
-
 
 /* 
  * func8 - return minimum two's complement integer 
@@ -264,12 +260,14 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    //int neg_x = ~x;                               // Find the two's complement of x by bitwise negation
-    //int is_max_x = !(neg_x & (1 << 31));          // Check if x is the maximum two's complement number
-
-    return 2;
+    int max_twos_complement = ~(1 << 31);
+    int x_complement = ~x + 1;
+    int xor_result = x ^ x_complement;
+    int sign_bit = xor_result >> 31;
+    int result = !(sign_bit ^ 1) & !(x ^ max_twos_complement);
+    
+    return result;
 }
-
 /* 
  * func10 - return -x 
  *   Example: func10(1) = -1.
