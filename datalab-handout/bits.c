@@ -265,8 +265,9 @@ int func9(int x) {
     int twos_complement = (x ^ max_twos_complement) + 1;
     int sign_bit = twos_complement >> 31;
     int is_max_twos_comp = !(sign_bit | ((twos_complement | mask) ^ mask));
+    int is_zero = !x;
     
-    return is_max_twos_comp;
+    return (is_max_twos_comp & !is_zero);
 }
 /* 
  * func10 - return -x 
