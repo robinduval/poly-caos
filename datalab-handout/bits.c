@@ -191,12 +191,12 @@ int func3(int x, int y) {
  *   Rating: 2
  */
 int func4(int x) {
-    int high_mask = (0xFF << 8) | 0xFF; // Create 0xFFFF mask using only 0x0 - 0xFF
-    int low_mask = (high_mask << 16);   // Create 0xFFFF0000 mask by shifting the 0xFFFF mask
+    int high_mask = (0xFF << 8) | 0xFF;   // 0xFFFF
+    int first16b = (x >> 16) & high_mask; // Extract the first 16 bits of x by right-shifting x by 16 and masking with high_mask.
+    int last16b = x & high_mask;          // Extract the last 16 bits of x by simply masking x with high_mask.
 
-    int high = (x & low_mask) >> 16;    // Extract the first 16 bits and shift them to the right
-    int low = (x & high_mask) << 16;    // Extract the last 16 bits and shift them to the left
-    return high | low;                  // Combine the shifted high and low parts
+    return (last16b << 16) | first16b;    // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
+
 
   // int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
   // int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
