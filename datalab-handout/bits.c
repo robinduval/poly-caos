@@ -235,15 +235,10 @@ int func6(int x) {
  *   Rating: 3 
  */
 int func7(int x, int n) {
-    int mask_high = (0xFF << 24) | (0xFF << 16) | (0xFF << 8) | 0xFF;     // Create a mask with all bits set to 1 (0xFFFFFFFF)
-    int shifted_x = x >> n;                                               // Shift the input value 'x' to the right by 'n' positions
+    int mask = ~(((1 << 31) >> n) << 1);  // Create a mask with n 0 bits on the right
+    int shifted = x >> n;                 // Shift x to the right by n
 
-    int mask = (mask_high << (32 + (~n + 1))) >> (32 + (~n + 1));         // Create a mask for the logical right shift by shifting mask_high
-                                                                          // to the left by (32 - n) positions and then shifting it back to the right
-                                                                          // This ensures the mask has 'n' least significant bits set to 0
-
-    return shifted_x & mask;                                              // Perform bitwise AND with the shifted_x and the mask to obtain the result
-                                                                          // of the logical right shift
+    return shifted & mask;                // Return x shifted by n with the rightmost n bits masked out
 }
 
 /*  2's complement  */
