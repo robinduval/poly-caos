@@ -260,17 +260,17 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    int mask = 0xFF;
-    int max_twos_complement = ~(1 << 31);
-    int twos_complement = (x ^ max_twos_complement) + 1;
-    int sign_bit = twos_complement >> 31;
-    int is_max_twos_comp = !(sign_bit | ((twos_complement | mask) ^ mask));
-    int is_min_twos_comp = !(x ^ (1 << 31));
-    int is_last_max_twos_comp = !((x + 1) ^ max_twos_complement);
-
-    return (is_max_twos_comp & !is_min_twos_comp & !is_last_max_twos_comp);
+    // int mask = 0xFF;
+    // int max_twos_complement = ~(1 << 31);
+    // int twos_complement = (x ^ max_twos_complement) + 1;
+    // int sign_bit = twos_complement >> 31;
+    // int is_max_twos_comp = !(sign_bit | ((twos_complement | mask) ^ mask));
+    // int is_min_twos_comp = !(x ^ (1 << 31));
+    // int is_last_max_twos_comp = !((x + 1) ^ max_twos_complement);
+    // return (is_max_twos_comp & !is_min_twos_comp & !is_last_max_twos_comp);
     // int is_zero = !x;
     // return (is_max_twos_comp & !is_zero);
+    return 2;
 }
 /* 
  * func10 - return -x 
@@ -309,11 +309,10 @@ int func11(int x, int y) {
  *   Rating: 3
  */
 int func12(int x, int y) {
-  //int diff = x + (~y + 1);
-  //int sign_bit = (diff >> 31) & 1;
-
-  //return !sign_bit;
-  return 2;
+    int diff = x + (~y + 1); // calculate the difference between x and y
+    int sign = (diff >> 31) & 1; // extract the sign bit of the difference
+    
+    return (~sign + 1) & 1; // if sign is negative, return 0, otherwise return 1
 }
 
 /*
