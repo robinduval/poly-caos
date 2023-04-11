@@ -144,10 +144,6 @@ NOTES:
 
 
 /* bit manipulation */
-/* bit manipulation */
-/* bit manipulation */
-
-/*    TODO : 1, 6, 7   */
 
 /*
  * func1 - returns 1 if x == 0, and 0 otherwise 
@@ -191,17 +187,11 @@ int func3(int x, int y) {
  *   Rating: 2
  */
 int func4(int x) {
-    int high_mask = (0xFF << 8) | 0xFF;   // 0xFFFF
+    int high_mask = (0xFF << 8) | 0xFF;   // 0x0000FFFF
     int first16b = (x >> 16) & high_mask; // Extract the first 16 bits of x by right-shifting x by 16 and masking with high_mask.
     int last16b = x & high_mask;          // Extract the last 16 bits of x by simply masking x with high_mask.
 
     return (last16b << 16) | first16b;    // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
-
-
-  // int first16b = (x >> 16) & 0xFFFF; // Extract the first 16 bits of x by right-shifting x by 16 and masking with 0xFFFF.
-  // int last16b = x & 0xFFFF;          // Extract the last 16 bits of x by simply masking x with 0xFFFF.
-  
-  // return (last16b << 16) | first16b; // Shift the last 16 bits to the left by 16 positions, and then use the bitwise OR operation to merge the first 16 bits into the result.
 }
 
 /* 
@@ -228,10 +218,10 @@ int func5(int x) {
  *   Rating: 2
  */
 int func6(int x) {
-    int mask = (0x55 << 8) | 0x55; // 0x00005555
-    mask = (mask << 16) | mask;    // 0x55555555
-    int even_bits = x & mask;
-    int result = !(even_bits ^ mask);
+    int mask = (0x55 << 8) | 0x55;      // 0x00005555
+    int mask2 = (mask << 16) | mask;    // 0x55555555
+    int even_bits = x & mask2;
+    int result = !(even_bits ^ mask2);
 
     return result;
 }
@@ -245,12 +235,12 @@ int func6(int x) {
  *   Rating: 3 
  */
 int func7(int x, int n) {
-  //TODO
-    //int mask = (1 << (31 - n)) - 1;                // Create a mask with the 31 - n least significant bits set to 1
-    //int arithmetic_shift = x >> n;                 // Perform arithmetic right shift
-    //int logical_shift = arithmetic_shift & mask;   // Apply the mask to the result of the arithmetic shift
+    int neg_n = ~n + 1;
+    int mask = (0xFF << 8) | 0xFF;      // Create 0xFFFF mask using only 0x0 - 0xFF
+    int mask2 = (mask << 16) | mask;    // Create 0xFFFFFFFF mask
+    int mask3 = mask2 << (32 + neg_n);  // Create the mask to remove the unwanted sign bits after the shift
 
-    return 2;
+    return (x >> n) & mask3;            // Perform the logical shift and mask the result to remove unwanted sign bits
 }
 
 /*  2's complement  */
