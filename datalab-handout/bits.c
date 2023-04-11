@@ -157,8 +157,8 @@ NOTES:
  *   Rating: 1
  */
 int func1(int x) {
-  //return ((x | (~x + 1)) >> 31) + 1; 
-  return !(x | (~x + 1));
+
+  return !x;
 }
 
 /* 
