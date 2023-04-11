@@ -260,12 +260,12 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    int mask = 0xFF;
+    int mask = 0xFF; //AAAAAAAAAAAAAAAAAAAAAAAAAASSS
     int max_twos_complement = ~(1 << 31);
     int x_twos_complement = (~x + 1) & ~((x >> 31) & mask);
     int diff = x_twos_complement + max_twos_complement;
     int result = !((diff >> 31) & 1);
-    
+
     return result;
 }
 /* 
