@@ -1,9 +1,10 @@
-    mrmovq  x, %rbx     # Move content at address x in rbx x = 10
-    mrmovq  y, %rax     # Move content at address y in rax y = 0
-    addq    %rbx, %rax  # rax = rax + rbx y = 10 + 10
-    rmmovq  %rax, y     # Move rax in the y location in memory
+    mrmovq  x, %rax     # Move content at address x in rbx x = 10
+    mrmovq  y, %rbx     # Move content at address y in rax y = 0
+    addq    %rax, %rbx  # rbx = rbx + rax -- y = x
+    add     0xa, %rbx   # rbx = rbx + 1 -- y = y + 10
+    rmmovq  %rbx, y     # Move rax in the y location in memory
     halt
 
-.pos 0x100
-x: .quad 0x0a
+.pos 256
+x: .quad 0xa
 y: .quad 0x0
