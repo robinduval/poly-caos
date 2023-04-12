@@ -326,24 +326,15 @@ int func12(int x, int y) {
  *   Rating: 4
  */
 int func13(int x, int y) {
-    // int sum = x + y;                                                              // Compute the sum of x and y
-
-    // int is_negative_x = (x >> 31) & 1;                                            // Check if x is negative
-    // int is_negative_y = (y >> 31) & 1;                                            // Check if y is negative
-    // int is_negative_sum = (sum >> 31) & 1;                                        // Check if the sum is negative
-
-    // int is_negative_overflow = is_negative_x & is_negative_y & ~is_negative_sum;  // Check if the overflow is negative
-    // int is_positive_overflow = ~is_negative_x & ~is_negative_y & is_negative_sum; // Check if the overflow is positive
-
-    // int max_val = ~(1 << 31);                                                     // Set the maximum value that can be represented by a 32-bit two's complement integer
-    // int min_val = 1 << 31;                                                        // Set the minimum value that can be represented by a 32-bit two's complement integer
-
-    // int overflow = is_negative_overflow | is_positive_overflow;                   // Compute the overflow flag
-    // int sign = (x >> 31) & 1;                                                     // Compute the sign of x
-
-    // int overflow_val = overflow & ((sign & min_val) | (~sign & max_val));         // Compute the overflow value
-    // int sum_val = ~overflow & sum;                                                // Compute the sum value
-
-    // return overflow_val | sum_val;                                                // Return the final result
-    return 2;
+  int sum = x + y;                                                  // Calculate the sum of x and y
+  int is_negative_overflow = (x >> 31) & (y >> 31) & ~(sum >> 31);  // Check for negative overflow
+  int is_positive_overflow = ~(x >> 31) & ~(y >> 31) & (sum >> 31); // Check for positive overflow
+  int max_val = ~(1 << 31);                                         // Calculate the maximum possible value
+  int min_val = 1 << 31;                                            // Calculate the minimum possible value
+  int overflow = is_negative_overflow | is_positive_overflow;       // Determine if any overflow occurred
+  
+  int sign_bit = x >> 31;                                            // Extract the sign bit of x
+  int min_or_max_val = (sign_bit & min_val) | (~sign_bit & max_val); // Choose min_val or max_val based on the sign bit
+  
+  return (overflow & min_or_max_val) | (~overflow & sum);            // Return the final value depending on overflow status
 }
