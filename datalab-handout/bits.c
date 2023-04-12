@@ -250,7 +250,7 @@ int func7(int x, int n) {
  *   Rating: 1
  */
 int func8(void) {
-    return ~0 << 31;                              // Shift the bitwise negation of 0 to the left by 31 positions
+    return ~0 << 31;                     // Shift the bitwise negation of 0 to the left by 31 positions
 }
 
 /*
@@ -272,6 +272,7 @@ int func9(int x) {
     // return (is_max_twos_comp & !is_zero);
     return 2;
 }
+
 /* 
  * func10 - return -x 
  *   Example: func10(1) = -1.
@@ -309,10 +310,18 @@ int func11(int x, int y) {
  *   Rating: 3
  */
 int func12(int x, int y) {
-    // int diff = ((x ^ y) + ((x ^ y) >> 31)) & 0xFF;  // Calculate the difference between x and y
-    // int sign = (diff >> 7) & 1;                     // Extract the sign bit of the difference
-    // return (~sign + 1) & 1;                         // If sign is negative, return 0, otherwise return 1
-  return 2;
+  int x_sign_bit = (x >> 31) & 1;                       // Extract the sign bit of x
+  int y_sign_bit = (y >> 31) & 1;                       // Extract the sign bit of y
+
+  int difference = x + (~y + 1);                        // Calculate (x - y) without using '-' operator
+  int difference_sign_bit = (difference >> 31) & 1;     // Extract the sign bit of the difference
+  int is_zero = !difference;                            // Check if the difference is zero
+
+  int sign_bits_diff = x_sign_bit ^ y_sign_bit;         // Check if the signs of x and y are different
+  int is_x_greater = (((!difference_sign_bit) & (!is_zero) & (!sign_bits_diff)) | ((!x_sign_bit) & y_sign_bit));
+  // Determine if x is greater than y based on the difference, sign bits, and sign difference
+
+  return is_x_greater;
 }
 
 /*
