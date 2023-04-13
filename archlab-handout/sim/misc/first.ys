@@ -6,6 +6,6 @@
     rmmovq  %rbx, y     # Move rax in the y location in memory                       
     halt                                                                             
                                                                                      
-.pos 16                                                                              
+.pos 0x100                                                                              
 x: .quad $10                                                                         
 y: .quad $0                                                                          
