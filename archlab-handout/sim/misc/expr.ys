@@ -1,7 +1,7 @@
     mrmovq  x, %rax    #load x in a
     mrmovq  y, %rbx    #load y in b
     irmovq  5, %rcx    #load 5 in c
-    irmovq  3, %rdx    #load 3 in d
+    irmovq  3, %rdx    #load 3 in d 
     subq    %rcx, %rax #substract
     jg       Ltrue      #look at the sign
     rmmovq  %rax, y    #else y=x
