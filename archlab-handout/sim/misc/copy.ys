@@ -1,0 +1,38 @@
+# Initialization
+    irmovq src, %rsi   # src address into rsi
+    irmovq dest, %rdi  # dest address into rdi
+    irmovq len, %rcx   # len into rcx
+    irmovq $0, %rax    # sum = 0
+    irmovq $8, %r11    # set r11 to 8 (quad size)
+    irmovq $1, %r12      # set r12 to 1
+
+loop:
+    rrmovq %rcx, %r8   # copy len (rcx) to r8
+    irmovq $0, %r9     # set r9 to 0
+    subq %r9, %r8      # set r8 to len - 0 (len)
+    je end             # if len == 0, jump to end
+
+    mrmovq (%rsi), %r10  # val = *src (read from rsi)
+    rmmovq %r10, (%rdi)  # *dest = val (write to rdi)
+    addq %r10, %rax      # sum += val
+    addq %r11, %rsi      # src++
+    addq %r11, %rdi      # dest++
+    subq %r12, %rcx      # len--
+    jmp loop             # continue the loop
+
+end:
+
+# Now %rax contains the sum
+
+# Test data
+.align 8
+src:
+    .quad 0x00a
+    .quad 0x0b0
+    .quad 0xc00
+dest:
+    .quad 0x111
+    .quad 0x222
+    .quad 0x333
+len:
+    .quad 3
