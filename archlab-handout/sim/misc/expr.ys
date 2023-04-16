@@ -1,14 +1,17 @@
+#Init
     mrmovq  x, %rax    #load x in a
+    mrmovq  x, %r8    #load x in e to have a backup
     mrmovq  y, %rbx    #load y in b
     irmovq  5, %rcx    #load 5 in c
-    irmovq  3, %rdx    #load 3 in d 
+    irmovq  3, %rdx    #load 3 in d
+    
     subq    %rcx, %rax #substract
-    jg       Ltrue      #look at the sign
-    rmmovq  %rax, y    #else y=x
+    jg      Ltrue      #look at the sign
+    rmmovq  %r8, y    #else y=x
     jmp     Lend
   Ltrue:
-    addq    %rdx, %rax  # if true a = d + a .. x = 3 + x
-    rmmovq  %rax, y     # Move rax in the y location in memory
+    addq    %rdx, %r8  # if true a = d + a .. x = 3 + x
+    rmmovq  %r8, y     # Move rax in the y location in memory
   Lend:
     halt
 .pos 0x100
