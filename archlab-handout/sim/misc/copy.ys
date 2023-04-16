@@ -1,10 +1,10 @@
-# Initialization
+# Init
     irmovq src, %rsi   # src address into rsi
     irmovq dest, %rdi  # dest address into rdi
-    irmovq len, %rcx   # len into rcx
+    mrmovq len, %rcx   # len into rcx
     irmovq $0, %rax    # sum = 0
     irmovq $8, %r11    # set r11 to 8 (quad size)
-    irmovq $1, %r12      # set r12 to 1
+    irmovq $1, %r12    # set r12 to 1
 
 loop:
     rrmovq %rcx, %r8   # copy len (rcx) to r8
@@ -36,3 +36,4 @@ dest:
     .quad 0x333
 len:
     .quad 3
+
