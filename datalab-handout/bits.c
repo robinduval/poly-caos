@@ -260,17 +260,17 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-    // int mask = 0xFF;
-    // int max_twos_complement = ~(1 << 31);
-    // int twos_complement = (x ^ max_twos_complement) + 1;
-    // int sign_bit = twos_complement >> 31;
-    // int is_max_twos_comp = !(sign_bit | ((twos_complement | mask) ^ mask));
-    // int is_min_twos_comp = !(x ^ (1 << 31));
-    // int is_last_max_twos_comp = !((x + 1) ^ max_twos_complement);
-    // return (is_max_twos_comp & !is_min_twos_comp & !is_last_max_twos_comp);
-    // int is_zero = !x;
-    // return (is_max_twos_comp & !is_zero);
-    return 2;
+#include <stdio.h>
+
+int func9(int x) {
+    /* Increment x by 1
+    Add the incremented value to the original x
+    Invert all the bits of the result
+    Logical NOT of the incremented value (0 if i was originally INT_MIN, 1 otherwise)
+    Add the result of the logical NOT to the inverted value
+    If x is INT_MIN after adding i, return 1, otherwise return 0 */
+
+    return  !((~(x + (x + 1))) + !(x + 1));
 }
 
 /* 
