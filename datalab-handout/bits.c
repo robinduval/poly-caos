@@ -260,9 +260,6 @@ int func8(void) {
  *   Rating: 1
  */
 int func9(int x) {
-#include <stdio.h>
-
-int func9(int x) {
     /* Increment x by 1
     Add the incremented value to the original x
     Invert all the bits of the result
@@ -273,7 +270,7 @@ int func9(int x) {
     return  !((~(x + (x + 1))) + !(x + 1));
 }
 
-/* 
+/*
  * func10 - return -x 
  *   Example: func10(1) = -1.
  *   Legal ops: ! ~ & ^ | + << >>
