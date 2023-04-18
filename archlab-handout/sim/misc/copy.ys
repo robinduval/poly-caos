@@ -21,8 +21,8 @@ loop:
     jmp loop             # continue the loop
 
 end:
-
-# Now %rax contains the sum
+    rmmovq %rax, sum
+    # Now %rax contains the sum and move the value to label sum
 
 # Test data
 .align 8
@@ -36,4 +36,5 @@ dest:
     .quad 0x333
 len:
     .quad 3
-
+sum:
+    .quad 0
