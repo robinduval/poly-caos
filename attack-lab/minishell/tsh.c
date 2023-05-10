@@ -229,8 +229,7 @@ void eval(char *cmdline)
 	  if (!bg) {
             /* Foreground job */
             addjob(jobs, pid, FG, cmdline);
-            /* Wait for the child process to terminate */
-            waitfg(pid);
+            waitfg(pid); // Wait for the child process to terminate   
 	  }
 	  else {
             /* Background job */
@@ -313,7 +312,10 @@ void do_bgfg(char **argv)
     // BEGIN HOMEWORK
     // All errors are handle before (thank you!)
 
-    state = FG;                  // Set the state to FG (foreground) by default
+    if(!strcmp(argv[0], "fg")){  // If the first argument is "fg", change the state to BG (background)
+      state = FG;
+    }
+    
     if(!strcmp(argv[0], "bg")){  // If the first argument is "bg", change the state to BG (background)
       state = BG;
     }
