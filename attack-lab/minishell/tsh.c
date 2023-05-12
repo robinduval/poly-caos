@@ -211,13 +211,11 @@ void eval(char *cmdline)
             addjob(jobs, pid, bg ? BG : FG, cmdline);
             sigprocmask(SIG_UNBLOCK, &mask, NULL);
 
-            if (bg) {
+            if (bg)
                 printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
-            }
-
-            if (!bg) {
+            
+            if (!bg) 
                 waitfg(pid); 
-            } 
         }
     return;
 }
@@ -287,8 +285,8 @@ void do_bgfg(char **argv)
 
     // BEGIN HOMEWORK
     // All errors are handle before (thank you!)
-    kill(-(jobp->pid), SIGCONT); // Send the SIGCONT signal to the entire process group to continue the stopped job
-    if(strcmp(argv[0], "fg")){  // If the first argument is "fg", change the state to BG (background)
+    kill(-(jobp->pid), SIGCONT);    // Send the SIGCONT signal to the entire process group to continue the stopped job
+    if(strcmp(argv[0], "fg")){      // If the first argument is "fg", change the state to BG (background)
         jobp->state = FG;
         waitfg(jobp->pid);
     } else {
@@ -308,11 +306,10 @@ void waitfg(pid_t pid)
   sigset_t mask;                  // Declare a signal set variable called mask
   sigemptyset(&mask);             // Initialize mask to be an empty set
 
-  while(0 != fgpid(jobs)) {       // While a foreground process exists
+  while(0 != fgpid(jobs))         // While a foreground process exists
     sigsuspend(&mask);            // Suspend execution of the process until a signal is received
                                   // (in this case, we are only waiting for SIGCHLD, since that is the only signal in the mask)
-  }
-
+  
   return;                         // Return control back to the calling function 
   // BOOKMARK-WAITFG : DONE
 }
@@ -333,28 +330,21 @@ void sigchld_handler(int sig)
     pid_t pid;
     int status;
 
-    // sigset_t mask;                        // Signal mask 
-    // sigemptyset(&mask);                   // Clear all the bits in the mask 
-    // sigaddset(&mask, SIGCHLD);            // Add the SIGCHILD signal 
-    // sigprocmask(SIG_BLOCK, &mask, NULL);  // Block all signals specified by mask 
-
     // WNOHANG : Don't wait if there is no child process to reap
     // WUNTRACED : Report if a child process is stopped by a signal.
-    while ((pid = waitpid(-1, &status, WNOHANG|WUNTRACED)) > 0) {     // Loop until all terminated child processes are reaped
-        if (WIFEXITED(status)) {        // If child process terminated normally, delete from job lits
+    while ((pid = waitpid(-1, &status, WNOHANG|WUNTRACED)) > 0) {   // Loop until all terminated child processes are reaped
+        if (WIFEXITED(status))                                      // If child process terminated normally, delete from job lits
             deletejob(jobs, pid);
-            //safe_printf("Job [%d] %d exited Normally\n", pid2jid(pid), pid); for debug
-        }
-        else if (WIFSIGNALED(status)) { // If child process terminated by a signal, print the signal number and delete from job list	
+        
+        if (WIFSIGNALED(status)) {                                  // If child process terminated by a signal, print the signal number and delete from job list	
             deletejob(jobs, pid);
             safe_printf("Job [%d] %d terminated by SIG:%d\n", pid2jid(pid), pid, WTERMSIG(status));
         } 
-        else if (WIFSTOPPED(status)) {  // If child process stopped by a signal, update its state in the job list
+        else if (WIFSTOPPED(status)) {                              // If child process stopped by a signal, update its state in the job list
             getjobpid(jobs, pid)->state = ST;
             safe_printf("Job [%d] %d stopped by SIG:%d\n", pid2jid(pid), pid, WSTOPSIG(status));
         }
     }
-    //sigprocmask(SIG_UNBLOCK, &mask, NULL); // Unblock all signals specified by mask
 
     return;
     // BOOKMARK-SIGCHLD : DONE
@@ -368,11 +358,10 @@ void sigchld_handler(int sig)
 void sigint_handler(int sig)
 {
   pid_t pid = fgpid(jobs);      // Get the process ID of the foreground job
-  //int jid = pid2jid(pid);       // Get the job ID of the foreground job
 
-  if (0 != pid){// && 0 != jid) {   // Check if there is a foreground job running
+  if (0 != pid)                 // Check if there is a foreground job running
     kill(-pid, SIGINT);         // Send a SIGTINT signal to the process group to stop the job
-  }
+  
   return;
   // BOOKMARK-SIGINT : DONE
 }
