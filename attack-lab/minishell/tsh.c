@@ -344,13 +344,13 @@ void sigchld_handler(int sig)
             deletejob(jobs, pid);
         
         if (WIFSIGNALED(status)) {                                  // If child process terminated by a signal, print the signal number and delete from job list	
-            deletejob(jobs, pid);
             safe_printf("Job [%d] (%d) terminated by signal %d\n", pid2jid(pid), pid, WTERMSIG(status));
+            deletejob(jobs, pid);
         } 
         
         if (WIFSTOPPED(status)) {                                   // If child process stopped by a signal, update its state in the job list
-            getjobpid(jobs, pid)->state = ST;
             safe_printf("Job [%d] (%d) stopped by signal %d\n", pid2jid(pid), pid, WSTOPSIG(status));
+            getjobpid(jobs, pid)->state = ST;
         }
     }
 
