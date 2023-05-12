@@ -286,12 +286,12 @@ void do_bgfg(char **argv)
     // BEGIN HOMEWORK
     // All errors are handle before (thank you!)
     kill(-(jobp->pid), SIGCONT);    // Send the SIGCONT signal to the entire process group to continue the stopped job
-    if(strcmp(argv[0], "fg")){      // If the first argument is "fg", change the state to BG (background)
+    if(!strcmp(argv[0], "fg")){     // If the first argument is "fg", change the state to BG (background)
         jobp->state = FG;
         waitfg(jobp->pid);
     } else {
-         jobp->state = BG;
-         printf("[%d] (%d) %s", jobp->jid, jobp->pid, jobp->cmdline);
+        jobp->state = BG;
+        printf("[%d] (%d) %s", jobp->jid, jobp->pid, jobp->cmdline);
     }
     
     // BOOKMARK-BG-COMMAND : DONE
