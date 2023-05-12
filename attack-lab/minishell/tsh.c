@@ -301,7 +301,6 @@ void do_bgfg(char **argv)
         jobp->state = BG;                                               // Update the state of the job to background
         printf("[%d] (%d) %s", jobp->jid, jobp->pid, jobp->cmdline);    // Print information about the background job to the console
     }
-
     
     // BOOKMARK-BG-COMMAND : DONE
     return;
