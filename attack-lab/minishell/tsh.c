@@ -285,11 +285,14 @@ void do_bgfg(char **argv)
 
     // BEGIN HOMEWORK
     // All errors are handle before (thank you!)
-    kill(-(jobp->pid), SIGCONT);    // Send the SIGCONT signal to the entire process group to continue the stopped job
-    if(!strcmp(argv[0], "fg")){     // If the first argument is "fg", change the state to BG (background)
+
+    kill(-(jobp->pid), SIGCONT);        // Send the SIGCONT signal to the entire process group to continue the stopped job
+    if(!strcmp(argv[0], "fg")) { 
         jobp->state = FG;
         waitfg(jobp->pid);
-    } else {
+    } 
+
+    if(strcmp(argv[0], "fg")) {
         jobp->state = BG;
         printf("[%d] (%d) %s", jobp->jid, jobp->pid, jobp->cmdline);
     }
@@ -309,7 +312,6 @@ void waitfg(pid_t pid)
   while(0 != fgpid(jobs))         // While a foreground process exists
     sigsuspend(&mask);            // Suspend execution of the process until a signal is received
                                   // (in this case, we are only waiting for SIGCHLD, since that is the only signal in the mask)
-  
   return;                         // Return control back to the calling function 
   // BOOKMARK-WAITFG : DONE
 }
@@ -338,11 +340,12 @@ void sigchld_handler(int sig)
         
         if (WIFSIGNALED(status)) {                                  // If child process terminated by a signal, print the signal number and delete from job list	
             deletejob(jobs, pid);
-            safe_printf("Job [%d] %d terminated by SIG:%d\n", pid2jid(pid), pid, WTERMSIG(status));
+            safe_printf("Job [%d] (%d) terminated by signal %d\n", pid2jid(pid), pid, WTERMSIG(status));
         } 
-        else if (WIFSTOPPED(status)) {                              // If child process stopped by a signal, update its state in the job list
+        
+        if (WIFSTOPPED(status)) {                              // If child process stopped by a signal, update its state in the job list
             getjobpid(jobs, pid)->state = ST;
-            safe_printf("Job [%d] %d stopped by SIG:%d\n", pid2jid(pid), pid, WSTOPSIG(status));
+            safe_printf("Job [%d] (%d) stopped by signal %d\n", pid2jid(pid), pid, WSTOPSIG(status));
         }
     }
 
@@ -410,7 +413,6 @@ void set_state(struct job_t* job, int state) {
 char* get_cmdline(struct job_t * job) {
     return job->cmdline;
 }
-
 
 /* clearjob - Clear the entries in a job struct */
 void clearjob(struct job_t *job) {
@@ -561,7 +563,6 @@ void listjobs(struct job_t *jobs)
 /******************************
  * end job list helper routines
  ******************************/
-
 
 /***********************
  * Other helper routines
