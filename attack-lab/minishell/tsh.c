@@ -194,29 +194,34 @@ void eval(char *cmdline)
     if (argv[0] == NULL)
         return;   /* ignore empty lines */
 
-    if (!builtin_cmd(argv)) {
-            /* Block SIGCHLD signals before forking to avoid race condition */
-            sigemptyset(&mask);
-            sigaddset(&mask, SIGCHLD);
-            sigprocmask(SIG_BLOCK, &mask, NULL);                               
-            if ((pid = fork()) == 0) {
-                sigprocmask(SIG_UNBLOCK, &mask, NULL);                              
-                setpgid(0, 0);
-                
-                if (execve(argv[0], argv, environ) < 0) {
-                    printf("%s: Command not found\n", argv[0]);
-                    exit(0);
-                }
-            }
-            addjob(jobs, pid, bg ? BG : FG, cmdline);
-            sigprocmask(SIG_UNBLOCK, &mask, NULL);
+    if (!builtin_cmd(argv)) { // If the command is not a built-in command
+        // Block SIGCHLD signals before forking to avoid a race condition
+        sigemptyset(&mask);                     // Initialize an empty signal set
+        sigaddset(&mask, SIGCHLD);              // Add SIGCHLD to the signal set
+        sigprocmask(SIG_BLOCK, &mask, NULL);    // Block SIGCHLD signals
 
-            if (bg)
-                printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
-            
-            if (!bg) 
-                waitfg(pid); 
+        // Fork a new process
+        if ((pid = fork()) == 0) {                      // If the process is the child
+            sigprocmask(SIG_UNBLOCK, &mask, NULL);      // Unblock SIGCHLD signals
+            setpgid(0, 0);                              // Set the process group ID to the process ID
+
+            // Execute the command
+            if (execve(argv[0], argv, environ) < 0) {       // If the command execution fails
+                printf("%s: Command not found\n", argv[0]); // Print an error message
+                exit(0);                                    // Exit the child process
+            }
         }
+
+        addjob(jobs, pid, bg ? BG : FG, cmdline);           // Add the job to the job list with the correct status (ternary power !)
+        sigprocmask(SIG_UNBLOCK, &mask, NULL);              // Unblock SIGCHLD signals.
+
+        if (bg) // If the job is running in the background, print its information.
+            printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
+
+        if (!bg) // If the job is running in the foreground, wait for it to finish.
+            waitfg(pid); 
+    }
+
     return;
 }
 
@@ -229,8 +234,8 @@ int builtin_cmd(char **argv)
     char *cmd = argv[0];
 
     if (!strcmp(cmd, "quit")) {
-        exit(0); // Success = 0 (if we have to handle failure we might use exit(1) 
-        // BOOKMARK QUIT COMMAND : DONE
+        exit(0);    // Success = 0 (if we have to handle failure we might use exit(1) 
+                    // BOOKMARK QUIT COMMAND : DONE
     }
 
     if (!strcmp(cmd, "jobs")) { /* jobs command */
@@ -283,11 +288,11 @@ void do_bgfg(char **argv)
         return;
     }
 
-    // BEGIN HOMEWORK
+    // Begin of BOOKMARK-BG-COMMAND
     // All errors are handle before (thank you!)
 
     kill(-(jobp->pid), SIGCONT);        // Send the SIGCONT signal to the entire process group to continue the stopped job
-    if(!strcmp(argv[0], "fg")) { 
+    if(!strcmp(argv[0], "fg")) {        // Becareful with ! :D
         jobp->state = FG;
         waitfg(jobp->pid);
     } 
@@ -312,7 +317,7 @@ void waitfg(pid_t pid)
   while(0 != fgpid(jobs))         // While a foreground process exists
     sigsuspend(&mask);            // Suspend execution of the process until a signal is received
                                   // (in this case, we are only waiting for SIGCHLD, since that is the only signal in the mask)
-  return;                         // Return control back to the calling function 
+  return;                         
   // BOOKMARK-WAITFG : DONE
 }
 
@@ -343,7 +348,7 @@ void sigchld_handler(int sig)
             safe_printf("Job [%d] (%d) terminated by signal %d\n", pid2jid(pid), pid, WTERMSIG(status));
         } 
         
-        if (WIFSTOPPED(status)) {                              // If child process stopped by a signal, update its state in the job list
+        if (WIFSTOPPED(status)) {                                   // If child process stopped by a signal, update its state in the job list
             getjobpid(jobs, pid)->state = ST;
             safe_printf("Job [%d] (%d) stopped by signal %d\n", pid2jid(pid), pid, WSTOPSIG(status));
         }
