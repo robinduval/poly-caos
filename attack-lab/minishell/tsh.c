@@ -385,11 +385,10 @@ void sigint_handler(int sig)
 void sigtstp_handler(int sig)
 {
   pid_t pid = fgpid(jobs);      // Get the process ID of the foreground job
-  //int jid = pid2jid(pid);       // Get the job ID of the foreground job
 
-  if (0 != pid){ // && 0 != jid) {   // Check if there is a foreground job running
+  if (0 != pid)                 // Check if there is a foreground job running
     kill(-pid, SIGTSTP);        // Send a SIGTSTP signal to the process group to stop the job  
-  }
+  
   return;
   // BOOKMARK-SIGTSTP : DONE
 }
