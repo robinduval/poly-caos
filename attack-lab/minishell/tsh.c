@@ -291,16 +291,17 @@ void do_bgfg(char **argv)
     // Begin of BOOKMARK-BG-COMMAND
     // All errors are handle before (thank you!)
 
-    kill(-(jobp->pid), SIGCONT);        // Send the SIGCONT signal to the entire process group to continue the stopped job
-    if(!strcmp(argv[0], "fg")) {        // Becareful with ! :D
-        jobp->state = FG;
-        waitfg(jobp->pid);
+   kill(-(jobp->pid), SIGCONT);                                         // Send the SIGCONT signal to the entire process group to continue the stopped job
+    if(!strcmp(argv[0], "fg")) {                                        // Check if the command is "fg" (foreground) or "bg" by comparing the first argument
+        jobp->state = FG;                                               // Update the state of the job to foreground
+        waitfg(jobp->pid);                                              // Wait for the job to finish execution in the foreground
     } 
 
-    if(strcmp(argv[0], "fg")) {
-        jobp->state = BG;
-        printf("[%d] (%d) %s", jobp->jid, jobp->pid, jobp->cmdline);
+    if(strcmp(argv[0], "fg")) {                                         
+        jobp->state = BG;                                               // Update the state of the job to background
+        printf("[%d] (%d) %s", jobp->jid, jobp->pid, jobp->cmdline);    // Print information about the background job to the console
     }
+
     
     // BOOKMARK-BG-COMMAND : DONE
     return;
