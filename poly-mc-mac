@@ -1,0 +1,44 @@
+from helper import create_user, check
+from Crypto.Util.Padding import pad,unpad
+#NE MARCHE PAS ! J'ai essayé de reverse+bruteforce - Ne le corrigez pas :D
+def reverse_engineer(data, return_value):
+    # Step 1: Compute the hash of the return value
+    hash_result = h(return_value)
+
+    # Step 2: Extract the XOR block from the hash result
+    xor_block = hash_result[-16:]
+
+    # Convert data to bytes if it's a string | because I always have a bug :D
+    if isinstance(data, str):
+        data = data.encode()
+
+    # Step 3: Reverse iterate over padded data blocks
+    padded_data_blocks = []
+    for i in range(len(data) - 16, -1, -16):
+        # Step 4: XOR the data block with the current XOR block
+        original_block = bytes(data[i + j] ^ xor_block[j] for j in range(16))
+        padded_data_blocks.insert(0, original_block)
+        xor_block = original_block
+
+    # Step 5: Concatenate recovered padded data blocks
+    recovered_padded_data = b''.join(padded_data_blocks)
+
+    # Step 6: Remove padding from the recovered padded data
+    recovered_data = unpad(recovered_padded_data, 16, style='pkcs7')
+
+    return recovered_data
+
+
+cookie = create_user("toto")
+byte_cookie = bytes.fromhex(cookie)
+print(byte_cookie)
+tag = cookie[:32]
+data = cookie[32:]
+print(bytes.fromhex(tag), "<-->", bytes.fromhex(data))
+byte_array = bytearray(byte_cookie)
+byte_array[len(byte_array)-18] = byte_array[len(byte_array)-18]^1 #Mettre is_admin à 1
+new_byte_cookie = bytes(byte_array)
+cookie = new_byte_cookie
+
+#print(reverse_engineer(data, cookie))
+print(new_byte_cookie)
